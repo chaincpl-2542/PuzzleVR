@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/VR_PuzzleFight.unity
+    guid: 462990c58e7c1984689644ea54641288
   m_configObjects: {}

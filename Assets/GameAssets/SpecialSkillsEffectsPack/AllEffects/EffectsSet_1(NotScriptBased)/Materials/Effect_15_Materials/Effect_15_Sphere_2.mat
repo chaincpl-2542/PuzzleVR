@@ -18,6 +18,7 @@ Material:
   - IS_SOFT_PARTICLES
   - IS_TEXCOORD_MOVE
   - IS_TEXTURE_ANIMATE
+  - IS_USE_SECOND_COLOR
   m_InvalidKeywords:
   - IS_UNITY_PARTICLE_INSTANCING_ENABLED
   - _ALPHAPREMULTIPLY_ON
@@ -129,7 +130,7 @@ Material:
     - _LightingEnabled: 0
     - _LinePass: 0
     - _MaskAnimatedSpeed: 1
-    - _MaskCutOut: 0.993
+    - _MaskCutOut: 1
     - _MaskFade: 1
     - _MaskOffsetFactor: 7.93
     - _MaxIndex: 2
@@ -149,7 +150,7 @@ Material:
     - _RimScale: 5
     - _RimStrength: 4
     - _RotateAngle: 0
-    - _SecondColor: 0
+    - _SecondColor: 1
     - _SmoothnessTextureChannel: 0
     - _SoftParticle: 1
     - _SoftParticlesEnabled: 0
@@ -187,6 +188,6 @@ Material:
     - _NoiseValue: {r: 0, g: 0, b: 0, a: 0}
     - _RimColor: {r: 1.4120227, g: 1.7303399, b: 1.5209272, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 0.23136796, g: 0.23584908, b: 0.17243683, a: 0.54901963}
+    - _TintColor: {r: 0.2004768, g: 0.3584906, b: 0.1538804, a: 0.54901963}
     - _TintColor2: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
   m_BuildTextureStacks: []

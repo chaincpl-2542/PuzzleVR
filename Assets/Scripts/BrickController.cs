@@ -66,7 +66,7 @@ public class BrickController : MonoBehaviour
             }
             else
             {
-                //BrickGoDown();
+                BrickGoDown();
                 timer = 1; 
             }
             
