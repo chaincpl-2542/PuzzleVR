@@ -185,8 +185,8 @@ Material:
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseValue: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 0.62843615, g: 3.2422867, b: 0.44352046, a: 1}
+    - _RimColor: {r: 2.8152735, g: 4.042849, b: 2.7270164, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 0.67078185, g: 1, b: 0.514151, a: 1}
-    - _TintColor2: {r: 0.0576978, g: 0.3018868, b: 0, a: 1}
+    - _TintColor: {r: 0.79755306, g: 0.9528302, b: 0.7236116, a: 1}
+    - _TintColor2: {r: 0.42541942, g: 0.745283, b: 0.3480331, a: 1}
   m_BuildTextureStacks: []

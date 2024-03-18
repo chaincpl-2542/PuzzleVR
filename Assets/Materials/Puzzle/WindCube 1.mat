@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WindCube
+  m_Name: WindCube 1
   m_Shader: {fileID: 4800000, guid: 1d58a8e283100ea4f8435e923e54553e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -129,7 +129,7 @@ Material:
     - _Lighting: 0
     - _LightingEnabled: 0
     - _LinePass: 0
-    - _MaskAnimatedSpeed: 1
+    - _MaskAnimatedSpeed: 0
     - _MaskCutOut: 1
     - _MaskFade: 1
     - _MaskOffsetFactor: 7.93
@@ -160,13 +160,13 @@ Material:
     - _SrcBlend: 1
     - _TexLength: 1
     - _TexPath: 1
-    - _TexPosMove: -1
+    - _TexPosMove: 0
     - _TexcoordMove: 1
     - _TexcoordMoveStrength: 1.5
     - _TexcoordMoveUsingCustom: 0
     - _TextureAnimate: 1
     - _TextureAnimateAdvanced: 0
-    - _TextureAnimateSpeed: 1
+    - _TextureAnimateSpeed: 0
     - _TextureAnimateStyle: 0
     - _TextureBlend: 0
     - _TextureNoise: 0
@@ -178,8 +178,8 @@ Material:
     - _ZTest2: 2
     - _ZTest3: 3
     - _ZWrite: 0
-    - _xTexcoordMove: 0.46
-    - _yTexcoordMove: 1
+    - _xTexcoordMove: 0
+    - _yTexcoordMove: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 3.9999995, g: 3.9999995, b: 3.9999995, a: 1}

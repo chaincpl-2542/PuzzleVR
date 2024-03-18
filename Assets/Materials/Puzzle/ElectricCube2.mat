@@ -7,20 +7,18 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WindCube
+  m_Name: ElectricCube2
   m_Shader: {fileID: 4800000, guid: 1d58a8e283100ea4f8435e923e54553e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - IS_MASK_FADE
   - IS_NORMAL_ANIMATE
   - IS_NORMAL_DISTORTION
   - IS_SOFT_PARTICLES
   - IS_TEXCOORD_MOVE
   - IS_TEXTURE_ANIMATE
-  - IS_USE_SECOND_COLOR
+  - IS_USE_TEXANIMATION
   m_InvalidKeywords:
-  - IS_UNITY_PARTICLE_INSTANCING_ENABLED
   - _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
@@ -61,7 +59,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3584f2bf4afb5284d91edb6a29126e62, type: 3}
+        m_Texture: {fileID: 2800000, guid: 937c2d88ef9b4e889d5a0a6a952c1a4b, type: 3}
         m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _MaskDistortion:
@@ -129,9 +127,9 @@ Material:
     - _Lighting: 0
     - _LightingEnabled: 0
     - _LinePass: 0
-    - _MaskAnimatedSpeed: 1
+    - _MaskAnimatedSpeed: 0
     - _MaskCutOut: 1
-    - _MaskFade: 1
+    - _MaskFade: 0
     - _MaskOffsetFactor: 7.93
     - _MaxIndex: 2
     - _Metallic: 0
@@ -140,17 +138,17 @@ Material:
     - _NoiseNormalFactor: 1
     - _NoiseScale: 0
     - _NormalAnimate: 1
-    - _NormalAnimateSpeed: 0.1
+    - _NormalAnimateSpeed: 0
     - _NormalDistortion: 1
     - _NormalDistortionFactor: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ParticleInstancing: 1
+    - _ParticleInstancing: 0
     - _RimLight: 0
     - _RimScale: 5
     - _RimStrength: 4
     - _RotateAngle: 0
-    - _SecondColor: 1
+    - _SecondColor: 0
     - _SmoothnessTextureChannel: 0
     - _SoftParticle: 1
     - _SoftParticlesEnabled: 0
@@ -160,34 +158,34 @@ Material:
     - _SrcBlend: 1
     - _TexLength: 1
     - _TexPath: 1
-    - _TexPosMove: -1
+    - _TexPosMove: 0
     - _TexcoordMove: 1
-    - _TexcoordMoveStrength: 1.5
+    - _TexcoordMoveStrength: 1
     - _TexcoordMoveUsingCustom: 0
     - _TextureAnimate: 1
     - _TextureAnimateAdvanced: 0
     - _TextureAnimateSpeed: 1
-    - _TextureAnimateStyle: 0
+    - _TextureAnimateStyle: 0.09
     - _TextureBlend: 0
     - _TextureNoise: 0
     - _UVSec: 0
-    - _UseTexAnimation: 0
+    - _UseTexAnimation: 1
     - _VertexAnimation: 0
     - _ZTest: 5
     - _ZTest1: 5
     - _ZTest2: 2
     - _ZTest3: 3
     - _ZWrite: 0
-    - _xTexcoordMove: 0.46
-    - _yTexcoordMove: 1
+    - _xTexcoordMove: 0
+    - _yTexcoordMove: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 3.9999995, g: 3.9999995, b: 3.9999995, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _NoiseValue: {r: 0, g: 0, b: 0, a: 0}
-    - _RimColor: {r: 1.1716207, g: 1.896058, b: 1.4199992, a: 1}
+    - _RimColor: {r: 1.4120227, g: 1.7303399, b: 1.5209272, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 0.6477263, g: 0.9150943, b: 0.56545925, a: 0.54901963}
-    - _TintColor2: {r: 0.4750356, g: 0.5754717, b: 0.4794024, a: 1}
+    - _TintColor: {r: 0.9245283, g: 0.34451762, b: 0.75252515, a: 0.54901963}
+    - _TintColor2: {r: 0.9433962, g: 0.37824848, b: 0.8043519, a: 1}
   m_BuildTextureStacks: []

@@ -11,14 +11,15 @@ public class BrickController : MonoBehaviour
     public SlotsManager slotsManager;
     public Vector2 RowAndSlot;
     public List<Brick> brickList;
-    public List<Brick> ghostBrickList;
     public GameObject ghostBlockPrefab;
 
+    public bool isPlayingThis;
     public bool isMoving;
     public bool canRotate;
     public bool canMoveLeft;
     public bool canMoveRight;
     bool canMoveDown;
+    bool callSpawn;
 
     public int MaxY;
     public int MaxX;
@@ -41,16 +42,15 @@ public class BrickController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timer = 1;
+        timer = 0.7f;
         isMoving = true;
         canMoveLeft = true;
         canMoveRight = true;
+        canMoveDown = true;
         brickSpawner = gameObject.GetComponentInParent<BrickSpawner>();
         RowAndSlot = mainSlot.GetComponent<MySlot>().RowAndSlot;
-        foreach (Brick brick in gameObject.GetComponentsInChildren<Brick>())
-        {
-            brickList.Add(brick);
-        }
+
+        
 
         //CreateGhostBlock();
     }
@@ -58,59 +58,75 @@ public class BrickController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isMoving)
+        if (isPlayingThis)
         {
-            if (timer > 0)
+            if (isMoving)
             {
-                timer -= 1 * Time.deltaTime;
-            }
-            else
-            {
-                BrickGoDown();
-                timer = 1; 
-            }
-            
+                if (timer > 0)
+                {
+                    timer -= 1 * Time.deltaTime;
+                }
+                else
+                {
+                    BrickGoDown();
+                    timer = 0.7f;
+                }
 
-            if (Input.GetKeyDown(KeyCode.S))
-            {
+
+                if (Input.GetKeyDown(KeyCode.S))
+                {
                     BrickGoDown();
 
-            }
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                if (canMoveLeft)
+                }
+                else if (Input.GetKeyDown(KeyCode.A))
                 {
-                    if (RowAndSlot.x > 0)
+                    if (canMoveLeft)
                     {
-                        RowAndSlot.x -= 1;
-                        UpdateBrickPosition();
+                        if (RowAndSlot.x > 0)
+                        {
+                            RowAndSlot.x -= 1;
+                            UpdateBrickPosition();
+                        }
                     }
                 }
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                if (canMoveRight)
+                else if (Input.GetKeyDown(KeyCode.D))
                 {
-                    if (RowAndSlot.x < 9)
+                    if (canMoveRight)
                     {
-                        RowAndSlot.x += 1;
-                        UpdateBrickPosition();
+                        if (RowAndSlot.x < 9)
+                        {
+                            RowAndSlot.x += 1;
+                            UpdateBrickPosition();
+                        }
                     }
                 }
-            }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (isMoving)
+                else if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    if (canRotate)
+                    if (isMoving)
                     {
-                        BrickRotate();
+                        if (canRotate)
+                        {
+                            BrickRotate();
+                        }
                     }
                 }
+                RotateCheck();
+                MoveLeftRightCheck();
+                BrickGoDownCheck();
             }
-            
-            RotateCheck();
-            MoveLeftRightCheck();
+        }
+        if(gameObject.transform.childCount <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void GetAllBricks()
+    {
+        foreach (Brick brick in gameObject.GetComponentsInChildren<Brick>())
+        {
+            brickList.Add(brick);
+            brick.slotsManager = slotsManager;
         }
     }
 
@@ -161,9 +177,9 @@ public class BrickController : MonoBehaviour
                 canMoveRight = false;
             }
 
-            if ((int)brickList[i].currentPosition.y > -1 && (int)brickList[i].currentPosition.x + 1 < MaxX -1 )
+            if ((int)brickList[i].currentPosition.y > -1 && (int)brickList[i].currentPosition.x + 1 < MaxX)
             {
-                print(((int)brickList[i].currentPosition.y).ToString() + " : " + ((int)brickList[i].currentPosition.x + 1).ToString());
+                //print(((int)brickList[i].currentPosition.y).ToString() + " : " + ((int)brickList[i].currentPosition.x + 1).ToString());
                 if (slotsManager.allRow[(int)brickList[i].currentPosition.y].mySlots[(int)brickList[i].currentPosition.x + 1].brick)
                 {
                     {
@@ -174,8 +190,7 @@ public class BrickController : MonoBehaviour
         }
     }
 
-
-    public void BrickGoDown()
+    public void BrickGoDownCheck()
     {
         canMoveDown = true;
 
@@ -195,6 +210,10 @@ public class BrickController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void BrickGoDown()
+    {
 
         if (canMoveDown)
         {
@@ -205,7 +224,6 @@ public class BrickController : MonoBehaviour
         }
         else
         {
-            print("Lock2");
             BrickLock();
         }
 
@@ -220,12 +238,15 @@ public class BrickController : MonoBehaviour
             if (brickList[i])
             {
                 slotsManager.allRow[(int)brickList[i].currentPosition.y].mySlots[(int)brickList[i].currentPosition.x].GetComponent<MySlot>().brick = brickList[i];
+                brickList[i].isHit = true;
             }
         }
-        brickSpawner.SpawnBrick();
+        if (!callSpawn)
+        {
+            brickSpawner.SpawnBrick();
+            callSpawn = true;
+        }
     }
-
-   
 
     //การเช็คเงื่อนไขยังผิดอยู่ แต่ทำงานได้
     public void RotateCheck()
@@ -553,7 +574,6 @@ public class BrickController : MonoBehaviour
         {
             GameObject brick = Instantiate(ghostBlockPrefab, brickList[i].transform.position, brickList[i].transform.rotation);
             brick.transform.SetParent(ghostPivot.transform);
-            ghostBrickList.Add(brick.GetComponent<Brick>());
         }
        
     }
