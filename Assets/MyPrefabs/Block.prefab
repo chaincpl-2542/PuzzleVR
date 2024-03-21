@@ -138,27 +138,37 @@ MonoBehaviour:
   currentPosition: {x: 0, y: 0}
   offSetFormMainBrick: {x: 0, y: 0}
   MainBrick: {fileID: 0}
-  isGhost: 0
-  outOfArea: 0
   isLock: 0
+  isHit: 0
   slotsManager: {fileID: 0}
   element: 0
+  elementType: 0
+  currentSlot: {fileID: 0}
+  scoreManager: {fileID: 0}
+  scoreCount: 0
+  plasmaExplode: {fileID: 0}
+  checkExplode: 0
   normalBrick: {fileID: 5354835580833558482}
   MagmaElement: {fileID: 4081421776092055852}
   MagmaElement_Effect: {fileID: 5792405385166037389}
   Plasma_MagmaElement: {fileID: 8014673663808653430}
+  Magma_ExplodeEffect: {fileID: 4531958494316611937, guid: 55995f8a0ffbf754ead230642f0abfbb, type: 3}
   ElectricElement: {fileID: 21647629967546434}
   ElectricElement_Effect: {fileID: 8672956157459088810}
   Plasma_ElectricElement: {fileID: 3510801228507522780}
+  Electric_ExplodeEffect: {fileID: 4001192145556583346, guid: 15772a1852d010b41bbf96dc100979ea, type: 3}
   WaterElement: {fileID: 5287756951540651766}
   WaterElement_Effect: {fileID: 194877654855388309}
   Plasma_WaterElement: {fileID: 1059272326794246140}
+  Water_ExplodeEffect: {fileID: 6440907869419455537, guid: 1fd2b4c28f630b44fa3da05a6868014c, type: 3}
   WindElement: {fileID: 5420296480972845631}
   WindElement_Effect: {fileID: 2469514031134088740}
   Plasma_WindElement: {fileID: 212868849569725158}
+  Wind_ExplodeEffect: {fileID: 7266234441118854011, guid: 9eda26985fe492a47940708282bc8e8d, type: 3}
   EarthElement: {fileID: 4070652930520122167}
   EarthElement_Effect: {fileID: 3375068241927299853}
   Plasma_EarthElement: {fileID: 1338806063280434985}
+  Earth_ExplodeEffect: {fileID: 5085506887037807202, guid: 110389176de453247a42c250c6ef0511, type: 3}
 --- !u!54 &3110050743123320385
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class BrickSpawner : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class BrickSpawner : MonoBehaviour
 
     bool startRandomBrickSet;
     bool startSpawn;
-
+    public float spawnDelayTimer = 1;
+    bool isDelay;
     GameObject nextExampleSet;
 
     [System.Serializable]
@@ -107,6 +109,7 @@ public class BrickSpawner : MonoBehaviour
             brickController = BrickSet.GetComponent<BrickController>();
             brickController.mainSlot = spawnPoint;
             brickController.slotsManager = slotsManager;
+            brickController.scoreManager = gameManager.gameObject.GetComponent<ScoreManager>();
             brickController.isPlayingThis = true;
 
 
@@ -114,6 +117,7 @@ public class BrickSpawner : MonoBehaviour
             {
                 brickController.brickList[i].GetComponent<Brick>().element = bricksElementList[bricksElementList.Count - 1].elements[i];
                 brickController.brickList[i].CheckElement();
+                brickController.brickList[i].scoreManager = gameObject.GetComponent<ScoreManager>();
                 brickController.brickList[i].slotsManager = slotsManager;
             }
 
@@ -191,5 +195,15 @@ public class BrickSpawner : MonoBehaviour
         }
     }
 
-  
+  public IEnumerator DelaySpawn()
+  {
+    if(!isDelay)
+    {
+        isDelay = true;
+        yield return new WaitForSeconds(spawnDelayTimer);
+        
+        SpawnBrick();
+        isDelay = false;
+    }
+  }
 }

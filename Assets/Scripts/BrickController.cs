@@ -12,12 +12,14 @@ public class BrickController : MonoBehaviour
     public Vector2 RowAndSlot;
     public List<Brick> brickList;
     public GameObject ghostBlockPrefab;
-
+    public ScoreManager scoreManager;
     public bool isPlayingThis;
     public bool isMoving;
     public bool canRotate;
     public bool canMoveLeft;
     public bool canMoveRight;
+    public bool allCheck;
+    int checkLockNum;
     bool canMoveDown;
     bool callSpawn;
 
@@ -50,8 +52,6 @@ public class BrickController : MonoBehaviour
         brickSpawner = gameObject.GetComponentInParent<BrickSpawner>();
         RowAndSlot = mainSlot.GetComponent<MySlot>().RowAndSlot;
 
-        
-
         //CreateGhostBlock();
     }
 
@@ -69,7 +69,6 @@ public class BrickController : MonoBehaviour
                 else
                 {
                     BrickGoDown();
-                    timer = 0.7f;
                 }
 
 
@@ -119,13 +118,39 @@ public class BrickController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+    #region Check all bricks is lock
+        for(int i = 0; i < brickList.Count; i++)
+        {
+            
+            if(brickList[i].isLock)
+            {
+                checkLockNum++;
+            }
+            else
+            {
+                checkLockNum = 0;
+            }
+        }
+        if(checkLockNum >= brickList.Count)
+        {
+            allCheck=true;
+            if (!callSpawn)
+            {
+                StartCoroutine(brickSpawner.DelaySpawn());
+                callSpawn = true;
+            }
+
+        }
     }
+    #endregion
 
     public void GetAllBricks()
     {
         foreach (Brick brick in gameObject.GetComponentsInChildren<Brick>())
         {
             brickList.Add(brick);
+            
             brick.slotsManager = slotsManager;
         }
     }
@@ -214,7 +239,7 @@ public class BrickController : MonoBehaviour
 
     public void BrickGoDown()
     {
-
+        timer = 0.7f;
         if (canMoveDown)
         {
             if (RowAndSlot.y > -1)
@@ -239,13 +264,14 @@ public class BrickController : MonoBehaviour
             {
                 slotsManager.allRow[(int)brickList[i].currentPosition.y].mySlots[(int)brickList[i].currentPosition.x].GetComponent<MySlot>().brick = brickList[i];
                 brickList[i].isHit = true;
+
+                brickList[i].currentSlot = slotsManager.allRow[(int)brickList[i].currentPosition.y].mySlots[(int)brickList[i].currentPosition.x].GetComponent<MySlot>();
+
+                
             }
         }
-        if (!callSpawn)
-        {
-            brickSpawner.SpawnBrick();
-            callSpawn = true;
-        }
+        
+
     }
 
     //การเช็คเงื่อนไขยังผิดอยู่ แต่ทำงานได้
@@ -559,22 +585,5 @@ public class BrickController : MonoBehaviour
         UpdateBrickPosition();
     }
 
-    public void CreateGhostBlock()
-    {
-        GameObject ghostBlockPivot = new GameObject();
-        ghostBlockPivot.name = "GhostPivot";
-
-        ghostPivot = ghostBlockPivot;
-        ghostPivot.transform.SetParent(gameObject.transform);
-
-        ghostPivot.transform.position = gameObject.transform.position;
-        ghostPivot.transform.rotation = gameObject.transform.rotation;
-
-        for(int i = 0; i < brickList.Count; i++)
-        {
-            GameObject brick = Instantiate(ghostBlockPrefab, brickList[i].transform.position, brickList[i].transform.rotation);
-            brick.transform.SetParent(ghostPivot.transform);
-        }
-       
-    }
+    
 }

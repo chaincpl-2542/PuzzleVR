@@ -120,3 +120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RowAndSlot: {x: 0, y: 0}
   brick: {fileID: 0}
+  slotsManager: {fileID: 0}
+  SlotAbove: {fileID: 0}
+  SlotBelow: {fileID: 0}
+  SlotRight: {fileID: 0}
+  SlotLeft: {fileID: 0}

@@ -23,6 +23,14 @@ public class SlotsManager : MonoBehaviour
                 allRow[i].mySlots.Add(slot);
             }
         }
+
+        for (int i = 0; i < allRow.Count; i++)
+        {
+            for (int a = 0; a < allRow[i].mySlots.Count; a++)
+            {
+                allRow[i].mySlots[a].SlotSetup();
+            }
+        }
     }
 
     // Update is called once per frame

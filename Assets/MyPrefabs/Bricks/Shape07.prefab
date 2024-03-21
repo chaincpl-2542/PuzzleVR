@@ -56,11 +56,13 @@ MonoBehaviour:
   - {fileID: 1743580085625092887}
   - {fileID: 2694099210469188141}
   ghostBlockPrefab: {fileID: 3125192684735094265, guid: 7a993e77f5f7b3743bc7f038af65b2ac, type: 3}
+  scoreManager: {fileID: 0}
   isPlayingThis: 0
-  isMoving: 0
+  isMoving: 1
   canRotate: 0
   canMoveLeft: 0
   canMoveRight: 0
+  allCheck: 0
   MaxY: 16
   MaxX: 10
   rotationType: 2
