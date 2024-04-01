@@ -168,8 +168,7 @@ public class MySlot : MonoBehaviour
                         SlotRight.SlotChainExpolde(_element,_plasma);
                     } 
                 }
-            }  
-                
+            }    
         }
     }
 }

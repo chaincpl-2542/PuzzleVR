@@ -21,46 +21,39 @@ public class Brick : MonoBehaviour
     public MySlot currentSlot;
     float myTimer = 0.5f;
 
-    [Header("Score")]
-    public ScoreManager scoreManager;
-    public int scoreCount;
-    public Brick plasmaExplode;
-    public bool checkExplode;
-
-    
-
     [Header("Elements")]
     public MeshRenderer normalBrick;
 
     [Header("Magma")]
     public GameObject MagmaElement;
-    public GameObject MagmaElement_Effect; 
     public GameObject Plasma_MagmaElement;
     public GameObject Magma_ExplodeEffect;
 
     [Header("Electric")]
     public GameObject ElectricElement;
-    public GameObject ElectricElement_Effect;
     public GameObject Plasma_ElectricElement;
     public GameObject Electric_ExplodeEffect;
 
     [Header("Water")]
     public GameObject WaterElement;
-    public GameObject WaterElement_Effect;
     public GameObject Plasma_WaterElement;
     public GameObject Water_ExplodeEffect;
 
     [Header("Wind")]
-    public GameObject WindElement;
-    public GameObject WindElement_Effect;
+    public GameObject WindElement;    
     public GameObject Plasma_WindElement;
     public GameObject Wind_ExplodeEffect;
 
     [Header("Earth")]
     public GameObject EarthElement;
-    public GameObject EarthElement_Effect;
     public GameObject Plasma_EarthElement;
     public GameObject Earth_ExplodeEffect;
+
+    [Header("Score")]
+    public ScoreManager scoreManager;
+    public int scoreCount;
+    public Brick plasmaExplode;
+    public bool checkExplode;
 
     public enum ElementType
     {
@@ -134,7 +127,8 @@ public class Brick : MonoBehaviour
 
             if(isLock == true)
             {
-                
+                gameObject.GetComponent<ElementMerge>().isSet = true;
+
                 if(currentSlot.SlotAbove.brick)
                 {
                     {
@@ -158,6 +152,12 @@ public class Brick : MonoBehaviour
                 myTimer = 0.5f;
             }
         }
+         CheckMergeBrick();
+    }
+
+    public void CheckMergeBrick()
+    {
+
     }
 
     public void CheckElement()

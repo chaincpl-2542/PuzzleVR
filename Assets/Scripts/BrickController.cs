@@ -18,9 +18,10 @@ public class BrickController : MonoBehaviour
     public bool canRotate;
     public bool canMoveLeft;
     public bool canMoveRight;
+    public bool canMoveDown;
     public bool allCheck;
     int checkLockNum;
-    bool canMoveDown;
+    
     bool callSpawn;
 
     public int MaxY;
