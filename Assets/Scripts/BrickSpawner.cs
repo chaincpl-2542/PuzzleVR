@@ -147,19 +147,19 @@ public class BrickSpawner : MonoBehaviour
 
                             break;
                         case 1:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Electric;
 
                             break;
                         case 2:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Water;
 
                             break;
                         case 3:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Wind;
 
                             break;
                         case 4:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Earth;
 
                             break;
                     }
@@ -170,23 +170,23 @@ public class BrickSpawner : MonoBehaviour
                     switch (plsamaNum)
                     {
                         case 0:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Plasma_Magma;
 
                             break;
                         case 1:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Plasma_Electric;
 
                             break;
                         case 2:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Plasma_Water;
 
                             break;
                         case 3:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Plasma_Wind;
 
                             break;
                         case 4:
-                            bricksElementList[i].elements[a] = Brick.Element.Magma;
+                            bricksElementList[i].elements[a] = Brick.Element.Plasma_Earth;
 
                             break;
                     }

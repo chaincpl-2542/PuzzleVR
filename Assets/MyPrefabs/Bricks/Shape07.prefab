@@ -62,6 +62,7 @@ MonoBehaviour:
   canRotate: 0
   canMoveLeft: 0
   canMoveRight: 0
+  canMoveDown: 0
   allCheck: 0
   MaxY: 16
   MaxX: 10

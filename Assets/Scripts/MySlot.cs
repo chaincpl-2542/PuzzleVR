@@ -26,43 +26,7 @@ public class MySlot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (brick)
-        {
-            timer -= Time.deltaTime;
-            if(timer <= 0)
-            {
-                if (RowAndSlot.y - 1 > -1)
-                {
-                    MoveDown();
-                }
-                else
-                {
-                    brick.currentSlot = gameObject.GetComponent<MySlot>();
-                }
-                timer = 0.1f;
-            }
-           
-        }
-         //BrickSlotUpdate();
-    }
 
-    public void MoveDown()
-    {
-        if (!slotsManager.allRow[(int)RowAndSlot.y - 1].mySlots[(int)RowAndSlot.x].brick)
-        {
-
-            brick.currentPosition.y -= 1;
-
-            slotsManager.allRow[(int)RowAndSlot.y - 1].mySlots[(int)RowAndSlot.x].brick = brick;
-            brick.isLock = false;
-            brick.currentSlot = null;
-            brick = null;
-        }
-        else
-        {
-
-            brick.currentSlot = gameObject.GetComponent<MySlot>();
-        }
     }
 
     public void BrickSlotUpdate()

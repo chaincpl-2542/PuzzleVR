@@ -48,27 +48,33 @@ public class ElementMerge : MonoBehaviour
             if(!isMerge)
             {
                 ////Coner for 1x1
-                if(slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick)
+                if((int)currentPosition.x + (int)brickSizeYX.x < 10 && (int)currentPosition.y + (int)brickSizeYX.y < 16)
                 {
-                    if(slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.isLock)
+                    if(slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick)
                     {
-                        if(slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.element == element)
+                        if(slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.isLock)
                         {
-                            brickConer = slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick;
-                            if(!mainBrickToMerge)
+                            if(slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.element == element)
                             {
-                                slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.GetComponent<ElementMerge>().mainBrickToMerge = gameObject.GetComponent<Brick>();
+                                if(!slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.isMerged)
+                                {
+                                    brickConer = slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick;
+                                    if(!mainBrickToMerge)
+                                    {
+                                        slotsManager.allRow[(int)currentPosition.y + (int)brickSizeYX.y].mySlots[(int)currentPosition.x + (int)brickSizeYX.x].brick.GetComponent<ElementMerge>().mainBrickToMerge = gameObject.GetComponent<Brick>();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                brickConer = null;
                             }
                         }
-                        else
-                        {
-                            brickConer = null;
-                        }
                     }
-                }
-                else
-                {
-                    brickConer = null;
+                    else
+                    {
+                        brickConer = null;
+                    }
                 }
 
                 for(int y = (int)brickSizeYX.y; y < brickSizeYX.y+1; y++)
@@ -83,7 +89,10 @@ public class ElementMerge : MonoBehaviour
                                 {
                                     if(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick.element == element)
                                     {
-                                        brickTop.Add(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick);
+                                        if(!slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick.isMerged)
+                                        {
+                                            brickTop.Add(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick);
+                                        }
                                     }
                                 }
                             }
@@ -103,10 +112,48 @@ public class ElementMerge : MonoBehaviour
                                 {
                                     if(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick.element == element)
                                     {
-                                        brickRight.Add(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick);
+                                        if(!slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick.isMerged)
+                                        {
+                                            brickRight.Add(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x + x].brick);
+                                        }
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+
+                for(int y = 0; y < brickSizeYX.y; y++)
+                {
+                    if(currentPosition.x > 0)
+                    {
+                        if(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x - 1].brick)
+                        {
+                            if(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x - 1].brick.isLock)
+                            {
+                                if(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x - 1].brick.element == element)
+                                {
+                                    if(!slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x - 1].brick.isMerged)
+                                    {
+                                        brickLeft.Add(slotsManager.allRow[(int)currentPosition.y + y].mySlots[(int)currentPosition.x - 1].brick);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if(mergeHead){
+                    if(brickLeft.Count == brickSizeYX.y)
+                    {
+                        for(int i = 0; i < brickMergedList.Count;i++)
+                        {
+                            brickMergedList[i].GetComponent<ElementMerge>().isMerge = true;
+                            brickMergedList[i].GetComponent<ElementMerge>().mergeBy = brickLeft[0];
+                            brickLeft[0].GetComponent<ElementMerge>().mergeHead = true;
+                            brickLeft[0].GetComponent<ElementMerge>().brickSizeYX = brickSizeYX;
+                            brickLeft[0].GetComponent<ElementMerge>().brickSizeYX.x = brickSizeYX.x+1;
+                            brickMergedList[i].GetComponent<ElementMerge>().brickMergedList = new List<Brick>();
                         }
                     }
                 }
@@ -127,6 +174,8 @@ public class ElementMerge : MonoBehaviour
                 {
                     for(int i = 0; i < brickMergedList.Count;i++)
                     {
+                        brickMergedList[i].ActiveMergedEffect(element);
+                        brickMergedList[i].isMerged = true;
                         if(i == 0)
                         {
                             brickMergedList[i].GetComponent<ElementMerge>().mergeBy = null;
@@ -148,7 +197,7 @@ public class ElementMerge : MonoBehaviour
                 brickRight = new List<Brick>();
                 brickTop = new List<Brick>();
                 brickConer = null;
-                brickMergedList = new List<Brick>();
+                //brickMergedList = new List<Brick>();
             }
         }
 

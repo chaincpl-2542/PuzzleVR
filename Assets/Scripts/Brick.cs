@@ -13,6 +13,7 @@ public class Brick : MonoBehaviour
 
     public bool isLock;
     public bool isHit;
+    public bool isMerged;
     bool check;
     public SlotsManager slotsManager;
 
@@ -20,33 +21,44 @@ public class Brick : MonoBehaviour
     public ElementType elementType;
     public MySlot currentSlot;
     float myTimer = 0.5f;
+    float timer;
+    public List<Brick> brickMergedList;
+    public Vector2 brickSize;
+    ElementMerge elementMerge;
 
     [Header("Elements")]
     public MeshRenderer normalBrick;
+    public GameObject currentEffectBlock;
+    bool effctCheck;
 
     [Header("Magma")]
     public GameObject MagmaElement;
     public GameObject Plasma_MagmaElement;
+    public GameObject MagmaMergedEffect;
     public GameObject Magma_ExplodeEffect;
 
     [Header("Electric")]
     public GameObject ElectricElement;
     public GameObject Plasma_ElectricElement;
+    public GameObject ElectricMergedEffect;
     public GameObject Electric_ExplodeEffect;
 
     [Header("Water")]
     public GameObject WaterElement;
     public GameObject Plasma_WaterElement;
+    public GameObject WaterMergedEffect;
     public GameObject Water_ExplodeEffect;
 
     [Header("Wind")]
     public GameObject WindElement;    
     public GameObject Plasma_WindElement;
+    public GameObject WindMergedEffect;
     public GameObject Wind_ExplodeEffect;
 
     [Header("Earth")]
     public GameObject EarthElement;
     public GameObject Plasma_EarthElement;
+    public GameObject EarthMergedEffect;
     public GameObject Earth_ExplodeEffect;
 
     [Header("Score")]
@@ -85,12 +97,14 @@ public class Brick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        timer = 0.05f;
+        elementMerge = gameObject.GetComponent<ElementMerge>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        brickSize = elementMerge.brickSizeYX;
 
         if (!MainBrick)
         {
@@ -127,7 +141,7 @@ public class Brick : MonoBehaviour
 
             if(isLock == true)
             {
-                gameObject.GetComponent<ElementMerge>().isSet = true;
+                elementMerge.isSet = true;
 
                 if(currentSlot.SlotAbove.brick)
                 {
@@ -152,12 +166,127 @@ public class Brick : MonoBehaviour
                 myTimer = 0.5f;
             }
         }
-         CheckMergeBrick();
+
+        ////ถ้า isMerged การเลื่อนลงจะเป็นก้อนใหญ่
+        if(!isMerged)
+        {
+            if(currentSlot)
+            {
+                timer -= Time.deltaTime;
+                if(timer <= 0)
+                {
+                    if (currentSlot.RowAndSlot.y - 1 > -1)
+                    {
+                        if(timer <= 0)
+                        {
+                            MoveDown();
+                        }
+                    }
+                    else
+                    {
+                        currentSlot = slotsManager.allRow[(int)currentPosition.y].mySlots[(int)currentPosition.x].GetComponent<MySlot>();
+                    }
+                    timer = 0.05f;
+                }
+            }
+        }
+        else
+        {
+            if(elementMerge.mergeHead)
+            {
+                brickMergedList = new List<Brick>();
+                brickMergedList = elementMerge.brickMergedList;
+
+                timer -= Time.deltaTime;
+                if(timer <= 0)
+                {
+                    for(int i = 0; i < brickMergedList.Count; i++)
+                    {
+                        if (brickMergedList[i].currentSlot.RowAndSlot.y - 1 > -1)
+                        {
+                            if(timer <= 0)
+                            {
+                                MergedMoveDown();
+                            }
+                        }
+                        else
+                        {
+                            currentSlot = slotsManager.allRow[(int)currentPosition.y].mySlots[(int)currentPosition.x].GetComponent<MySlot>();
+                        }
+                        timer = 0.05f;
+                    }
+                }
+                
+            }
+        }
+
+
+        /////ควบคุมการรวมของ Brick โดยการคำนวณ posiiotn เอง
+        if(isMerged)
+        {
+            if(elementMerge.mergeHead)
+            {
+                if(brickSize.x > 1 && brickSize.y > 1)
+                {
+                    currentEffectBlock.transform.localPosition = new Vector3(0 + (0.53f * ((float)brickSize.x-1)),-0.517f,0);
+                    currentEffectBlock.transform.localScale = new Vector3(1.05f * (float)brickSize.x,1.05f * (float)brickSize.y,1f);
+                }
+            }
+            else
+            {
+                currentEffectBlock.SetActive(false);
+                currentEffectBlock.transform.localPosition = new Vector3(0,-0.517f,0);
+                currentEffectBlock.transform.localScale = new Vector3(1f,1f,1f);
+            }
+        }
     }
 
-    public void CheckMergeBrick()
+    ////ควบคุมการตกเมื่อข้างล่างไม่มี block
+    public void MoveDown()
     {
+        if (!slotsManager.allRow[(int)currentSlot.RowAndSlot.y - 1].mySlots[(int)currentSlot.RowAndSlot.x].brick)
+        {
+            currentPosition.y -= 1;
+            currentSlot.brick = null;
 
+            slotsManager.allRow[(int)currentPosition.y].mySlots[(int)currentPosition.x].brick = gameObject.GetComponent<Brick>();
+            currentSlot = slotsManager.allRow[(int)currentPosition.y].mySlots[(int)currentPosition.x].GetComponent<MySlot>();
+            isLock = false;  
+        }
+        else
+        {
+            currentSlot = slotsManager.allRow[(int)currentPosition.y].mySlots[(int)currentPosition.x].GetComponent<MySlot>();
+        }
+    }
+
+    ////ควบคุมการตกเมื่อข้างล่างไม่มี block แบบก้อน
+    public void MergedMoveDown()
+    {
+        bool MergedCanMoveDowncheck = true;
+        for(int i = 0; i < brickSize.x; i++)
+        {
+            if(currentPosition.y - 1 >= 0 && currentPosition.x - 1 >= 0){
+                if(slotsManager.allRow[(int)currentPosition.y - 1].mySlots[(int)currentPosition.x + i].brick)
+                {
+                    MergedCanMoveDowncheck = false;
+                    print("Check");
+                }
+            }
+        }
+
+        if(MergedCanMoveDowncheck)
+        {
+            for(int i = 0; i < brickMergedList.Count; i++)
+            {
+                brickMergedList[i].currentPosition.y -= 1;
+                brickMergedList[i].currentSlot.brick = null;
+
+                slotsManager.allRow[(int)brickMergedList[i].currentPosition.y].mySlots[(int)brickMergedList[i].currentPosition.x].brick = brickMergedList[i].GetComponent<Brick>();
+                brickMergedList[i].currentSlot = slotsManager.allRow[(int)brickMergedList[i].currentPosition.y].mySlots[(int)brickMergedList[i].currentPosition.x].GetComponent<MySlot>();
+                brickMergedList[i].isLock = false;
+            }
+        }
+       
     }
 
     public void CheckElement()
@@ -550,5 +679,93 @@ public class Brick : MonoBehaviour
         Plasma_EarthElement.SetActive(true);
         normalBrick.enabled = false;
     }
+
 #endregion 
+
+#region MregedElement
+
+    public void ActiveMergedEffect(Element MergeElement)
+    {
+        switch (MergeElement)
+        {
+            case Element.Magma:
+                ActiveMagmaMergedEffect();
+                break;
+                
+            case Element.Electric:
+                ActiveElectricMergedEffect();
+                break;
+            
+            case Element.Water:
+                ActiveWaterMergedEffect();
+                break;
+            
+            case Element.Wind:
+                ActiveWindMergedEffect();
+                break;
+            
+            case Element.Earth:
+                ActiveEarthMergedEffect();
+                break;
+        }
+    }
+    public void ActiveMagmaMergedEffect()
+    {
+        if(!effctCheck)
+        {
+            MagmaElement.SetActive(false);
+            normalBrick.enabled = false;
+            MagmaMergedEffect.SetActive(true);
+            currentEffectBlock = MagmaMergedEffect;
+            effctCheck = true;
+        }
+    }
+
+    public void ActiveElectricMergedEffect()
+    {   if(!effctCheck)
+        {
+            ElectricElement.SetActive(false);
+            normalBrick.enabled = false;
+            ElectricMergedEffect.SetActive(true);
+            currentEffectBlock = ElectricMergedEffect;
+            effctCheck = true;
+        }
+    }
+
+    public void ActiveWaterMergedEffect()
+    {
+        if(!effctCheck)
+        {
+            WaterElement.SetActive(false);
+            normalBrick.enabled = false;
+            WaterMergedEffect.SetActive(true);
+            currentEffectBlock = WaterMergedEffect;
+            effctCheck = true;
+        }
+    }
+
+    public void ActiveWindMergedEffect()
+    {
+        if(!effctCheck)
+        {
+            WindElement.SetActive(false);
+            normalBrick.enabled = false;
+            WindMergedEffect.SetActive(true);
+            currentEffectBlock = WindMergedEffect;
+            effctCheck = true;
+        }
+    }
+
+    public void ActiveEarthMergedEffect()
+    {
+        if(!effctCheck)
+        {
+            EarthElement.SetActive(false);
+            normalBrick.enabled = false;
+            EarthMergedEffect.SetActive(true);
+            currentEffectBlock = EarthMergedEffect;
+            effctCheck = true;
+        }
+    }
+    #endregion
 }

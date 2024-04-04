@@ -22,6 +22,7 @@ public class BrickController : MonoBehaviour
     public bool allCheck;
     int checkLockNum;
     
+    
     bool callSpawn;
 
     public int MaxY;
@@ -69,7 +70,7 @@ public class BrickController : MonoBehaviour
                 }
                 else
                 {
-                    BrickGoDown();
+                    //BrickGoDown();
                 }
 
 
@@ -275,7 +276,6 @@ public class BrickController : MonoBehaviour
 
     }
 
-    //การเช็คเงื่อนไขยังผิดอยู่ แต่ทำงานได้
     public void RotateCheck()
     {
         canRotate = true;
@@ -289,7 +289,24 @@ public class BrickController : MonoBehaviour
                     xy.x = brickList[i].offSetFormMainBrick.y;
                     xy.y = brickList[i].offSetFormMainBrick.x;
 
-                    if (brickList[i].vectorType == Brick.VectorType.PP || brickList[i].vectorType == Brick.VectorType.NN)
+                     if (brickList[i].vectorType == Brick.VectorType.PP)
+                    {
+                        xy.y = xy.y * -1;
+                    }
+                    else if (brickList[i].vectorType == Brick.VectorType.NN)
+                    {
+                        xy.y = xy.y * -1;
+                    }
+                    else if (brickList[i].vectorType == Brick.VectorType.PN)
+                    {
+                        xy.x = xy.x * -1;
+                    }
+                    else if (brickList[i].vectorType == Brick.VectorType.NP)
+                    {
+                        xy.y = xy.y * -1;
+                    }
+
+                    if (brickList[i].vectorType == Brick.VectorType.PP)
                     {
 
                         if ((xy.x + RowAndSlot.x > -1) && (xy.x + RowAndSlot.x < MaxX))
@@ -312,7 +329,43 @@ public class BrickController : MonoBehaviour
                             canRotate = false;
                             break;
                         }
+                        
+                        //CheckNearAnotherBrick
+                        if ((xy.x + RowAndSlot.x > -1) && (xy.x + RowAndSlot.x < MaxX) && xy.y + RowAndSlot.y > -1)
+                        {
+                            if (slotsManager.allRow[(int)xy.y + (int)RowAndSlot.y].mySlots[(int)xy.x + (int)RowAndSlot.x].brick)
+                            {
 
+                                canRotate = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (brickList[i].vectorType == Brick.VectorType.NN)
+                    {
+
+                        if ((xy.x + RowAndSlot.x > -1) && (xy.x + RowAndSlot.x < MaxX))
+                        {
+                            //print("CanRotateX" + " : " + (xy.x + RowAndSlot.x) + " : " + brickList[i].name);
+                        }
+                        else
+                        {
+                            canRotate = false;
+                            break;
+                        }
+
+                        if(xy.y + RowAndSlot.y > -1)
+                        {
+                            //print("CanRotateY" + " : " + (xy.y + RowAndSlot.y) + " : " + brickList[i].name);
+
+                        }
+                        else
+                        {
+                            canRotate = false;
+                            break;
+                        }
+                        
                         //CheckNearAnotherBrick
                         if ((xy.x + RowAndSlot.x > -1) && (xy.x + RowAndSlot.x < MaxX) && xy.y + RowAndSlot.y > -1)
                         {
