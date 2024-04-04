@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using BNG;
 
 public class BrickController : MonoBehaviour
 {
@@ -111,6 +112,48 @@ public class BrickController : MonoBehaviour
                         }
                     }
                 }
+
+                if(InputBridge.Instance.RightThumbstickDown)
+                {
+                     BrickGoDown();
+                }
+
+                if(InputBridge.Instance.RightThumbstickAxis.y > 1)
+                {
+                    if (canMoveRight)
+                    {
+                        if (RowAndSlot.x < 9)
+                        {
+                            RowAndSlot.x += 1;
+                            UpdateBrickPosition();
+                        }
+                    }
+                }
+
+                if(InputBridge.Instance.RightThumbstickAxis.y < -1)
+                {
+                    if (canMoveLeft)
+                    {
+                        if (RowAndSlot.x > 0)
+                        {
+                            RowAndSlot.x -= 1;
+                            UpdateBrickPosition();
+                        }
+                    }
+                }
+
+                if(InputBridge.Instance.AButton || InputBridge.Instance.BButton)
+                {
+                    if (isMoving)
+                    {
+                        if (canRotate)
+                        {
+                            BrickRotate();
+                        }
+                    }
+                }
+
+
                 RotateCheck();
                 MoveLeftRightCheck();
                 BrickGoDownCheck();
